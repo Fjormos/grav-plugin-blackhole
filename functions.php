@@ -176,4 +176,20 @@ function assets($that, $event_horizon, $input_url, $data, $force, $verbose) {
       }
     }
   }
+
+  // copy search index files
+  $searchIndicesLocation = '/user/data/';
+  $languages = ['de', 'en'];
+
+  foreach ($languages as $lang) {
+    $filename = 'tecart-search-index-'.$lang.'.json';
+    $origin = rtrim(GRAV_ROOT, '/').$searchIndicesLocation.$filename;
+    $destination = rtrim($event_horizon, '/').$searchIndicesLocation.$filename;
+
+    if (file_exists($origin)) {
+      copy($origin, $destination);
+    } else {
+      echo 'The search index file for language '.$lang.' is missing!';
+    }
+  }
 }
